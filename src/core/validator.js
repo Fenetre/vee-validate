@@ -737,21 +737,21 @@ export default class Validator {
     });
   }
 
-  _shouldSkip (field, value) {
-    // field is configured to run through the pipeline regardless
-    if (field.bails === false) {
-      return false;
-    }
-
-    // disabled fields are skipped if useConstraintAttrs is enabled in config
-    if (field.isDisabled && getConfig().useConstraintAttrs) {
-      return true;
-    }
-
-    // skip if the field is not required and has an empty value.
+  _notRequiredAndNullEquivalent(field, value){
+    // if the field is not required and has an empty value.
     return !field.isRequired && (isNullOrUndefined(value) || value === '' || isEmptyArray(value));
   }
+  _disabled(field){
+    return (field.isDisabled && getConfig().useConstraintAttrs);
+  }
+  _bails(field){
+    // Whether this field bails. 
+    return field.bails === false ? false : true
+  }
 
+  _shouldSkip (field, value) {
+    return this._notRequiredAndNullEquivalent(field, value) || this._disabled(field) || this._bails(field)
+  }
   _shouldBail (field) {
     // if the field was configured explicitly.
     if (field.bails !== undefined) {
