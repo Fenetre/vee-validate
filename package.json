@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "vee-validate",
   "version": "2.2.10",
   "description": "Template Based Validation Framework for Vue.js",
