@@ -83,7 +83,7 @@ Sometimes it is unsuitable for a Provider component in principle to render anyth
 In 2.2.10 a `slim` prop can be used to force the component to be renderless, by default it is set to `false`.
 
 ```vue
-<ValidationProvider rules="required" v-slot="{ errors }">
+<ValidationProvider rules="required" v-slot="{ errors }" slim>
   <div>
     <input v-model="value" type="text">
     <span>{{ errors[0] }}</span>
@@ -100,7 +100,7 @@ In 2.2.10 a `slim` prop can be used to force the component to be renderless, by 
 Note that **only the first child** will be rendered when `slim` is used, any other nodes will be dropped as you cannot have multiple root nodes in a renderless component. Be mindful of that when using the `slim` prop.
 
 ```vue
-<ValidationProvider rules="required" v-slot="{ errors }">
+<ValidationProvider rules="required" v-slot="{ errors }" slim>
   <input v-model="value" type="text">
   <span>{{ errors[0] }}</span>
 </ValidationProvider>
@@ -367,11 +367,9 @@ You may want to add manual errors to a field, such cases like pre-filling initia
 ```vue
 <template>
   <div id="app">
-    <ValidationProvider ref="provider" rules="required">
-      <div slot-scope="{ errors }">
-        <input v-model="model" type="text">
-        <div v-if="errors" v-text="errors[0]"></div>
-      </div>
+    <ValidationProvider ref="provider" rules="required" v-slot="{ errors }">
+      <input v-model="model" type="text">
+      <div v-if="errors" v-text="errors[0]"></div>
     </ValidationProvider>
   </div>
 </template>
